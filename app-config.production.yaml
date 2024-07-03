@@ -33,6 +33,10 @@ catalog:
       rules:
         - allow: [Template]
     - type: url
+      target: https://github.com/${GITHUB_ORG_ID}/backstage/blob/main/templates/cloudrun-example/template.yaml
+      rules:
+        - allow: [Template]
+    - type: url
       target: https://github.com/${GITHUB_ORG_ID}/backstage/blob/main/examples/org.yaml
       rules:
         - allow: [User, Group]

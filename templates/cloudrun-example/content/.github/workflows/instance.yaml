@@ -1,0 +1,61 @@
+name: Deploy Cloud Run in ${{ vars.project_id }}
+
+on:
+  push:
+    branches: main
+
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+env:
+
+  # IMAGE: anothertest-podinfo-service
+  GCP_WORKLOAD_IDENTITY_PROVIDER: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+  GCP_SERVICE_ACCOUNT: ${{ vars.GCP_SERVICE_ACCOUNT }}
+  # GCP_GAR_HOST: ${{ vars.GCP_GAR_HOST }}
+  # GCP_GAR_NAME: ${{ vars.GCP_GAR_NAME }}
+
+  # HUMCTL_VERSION: '0.25.0'
+  # APP_NAME: anothertest-podinfo-service
+
+
+jobs:
+  deploy-cloudrun:
+    name: Build
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+    
+    # checkout the code from the repository
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: configure gcp credentials
+      uses: google-github-actions/auth@v1
+      with:
+        workload_identity_provider: ${{ env.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+        service_account: ${{ env.GCP_SERVICE_ACCOUNT }}
+    - name: Validate GCP service account
+      run: gcloud auth list
+    # Initialize Terraform 
+    - name: Terraform Init
+      run: terraform init
+      working-directory: .  # Where should this command be run?
+      
+    # Format Terraform code
+    - name: Terraform Format
+      run: terraform fmt
+      working-directory: .
+      
+    # Validate the Terraform code 
+    - name: Terraform Validate
+      run: terraform validate
+      working-directory: .
+      
+    # Apply the Terraform plan
+    - name: terraform apply
+      run: terraform apply -auto-approve
+      working-directory: .
+  
