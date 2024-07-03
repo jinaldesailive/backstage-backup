@@ -3,18 +3,13 @@ name: Deploy Cloud Run in ${{ values.project_id | capitalize }}
 on:
   push:
     branches: main
-
+{% raw %}
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
 env:
-
-  # IMAGE: anothertest-podinfo-service
   GCP_WORKLOAD_IDENTITY_PROVIDER: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
   GCP_SERVICE_ACCOUNT: ${{ vars.GCP_SERVICE_ACCOUNT }}
-  # GCP_GAR_HOST: ${{ vars.GCP_GAR_HOST }}
-  # GCP_GAR_NAME: ${{ vars.GCP_GAR_NAME }}
-
-  # HUMCTL_VERSION: '0.25.0'
-  # APP_NAME: anothertest-podinfo-service
-
 
 jobs:
   deploy-cloudrun:
@@ -55,4 +50,4 @@ jobs:
     - name: terraform apply
       run: terraform apply -auto-approve
       working-directory: .
-  
+{% endraw %}  
