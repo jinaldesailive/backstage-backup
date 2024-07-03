@@ -1,1 +1,1 @@
-project_id = var.project_id
+project_id = ${{ values.project_id | dump }}

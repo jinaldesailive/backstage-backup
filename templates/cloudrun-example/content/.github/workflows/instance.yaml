@@ -1,4 +1,4 @@
-name: Deploy Cloud Run in ${{ vars.project_id }}
+name: Deploy Cloud Run in ${{ values.project_id | capitalize }}
 
 on:
   push:

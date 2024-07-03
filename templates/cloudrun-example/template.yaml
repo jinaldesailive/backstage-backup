@@ -32,6 +32,7 @@ spec:
       name: Fetch Base
       action: fetch:template
       input:
+        targetPath: ./content
         url: ./content
         values:
           project_id: ${{ parameters.project_id }}
@@ -46,6 +47,7 @@ spec:
         repoUrl: github.com?owner=monkmantra&repo=${{ parameters.project_id }}
         repoVisibility: public
         protectDefaultBranch: false
+        sourcePath: ./content
         oidcCustomization: ${{ steps.environment.output.githubOIDCCustomization }}
 
     # - id: humanitec-create-app
@@ -59,7 +61,7 @@ spec:
       action: catalog:register
       input:
         repoContentsUrl: ${{ steps['publish'].output.repoContentsUrl }}
-        catalogInfoPath: '/catalog-info.yaml'
+        catalogInfoPath: '/'
 
   output:
     links:
