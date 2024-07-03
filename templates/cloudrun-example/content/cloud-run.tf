@@ -13,6 +13,6 @@ module "cloud_run" {
   service_name          = "ci-cloud-run"
   project_id            = var.project_id
   location              = "us-east4"
-  image                 = "us-east4-docker.pkg.dev/cloudrun/container/hello"
+  image                 = "us-docker.pkg.dev/cloudrun/container/hello"
   service_account_email = module.service_account.email
 }
