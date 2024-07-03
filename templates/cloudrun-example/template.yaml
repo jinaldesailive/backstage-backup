@@ -47,7 +47,6 @@ spec:
         repoUrl: github.com?owner=monkmantra&repo=${{ parameters.project_id }}
         repoVisibility: public
         protectDefaultBranch: false
-        sourcePath: ./content
         oidcCustomization: ${{ steps.environment.output.githubOIDCCustomization }}
 
     # - id: humanitec-create-app
